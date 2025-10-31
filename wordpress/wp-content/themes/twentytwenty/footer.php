@@ -8,45 +8,77 @@
 ?>
 
 <!-- =========================
-     FOOTER CHÍNH (NỀN XANH)
+     FOOTER CHÍNH (NỀN XANH) - Dynamic lists: recent comments, categories, latest posts
      ========================= -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <section id="footer" class="text-white" style="background:#007b5e;">
     <div class="container py-5">
 
-        <!-- QUICK LINKS -->
+        <!-- QUICK LINKS (dynamic) -->
         <div class="row text-center text-md-left">
+            <!-- Recent Comments -->
             <div class="col-md-4 mb-4">
-                <h5 class="text-uppercase mb-3">Quick Links</h5>
-                <ul class="list-unstyled quick-links">
-                    <li><a href="<?php echo home_url('/'); ?>">Home</a></li>
-            <li><a href="<?php echo home_url('?page_id=24'); ?>">About</a></li>
-            <li><a href="<?php echo home_url('?page_id=79'); ?>">FAQ</a></li>
-            <li><a href="<?php echo home_url('?page_id=82'); ?>">Get Started</a></li>
-            <li><a href="<?php echo home_url('?page_id=85'); ?>">Videos</a></li>
-                </ul>
-            </div>
-   
-            <div class="col-md-4 mb-4">
-                <h5 class="text-uppercase mb-3">Resources</h5>
-               <ul>
-            <li><a href="<?php echo home_url('?page_id=88'); ?>">Privacy Policy</a></li>
-            <li><a href="<?php echo home_url('?page_id=91'); ?>">Terms of Service</a></li>
-            <li><a href="<?php echo home_url('?page_id=94'); ?>">Support</a></li>
-            <li><a href="<?php echo home_url('?page_id=98'); ?>">Contact Us</a></li>
-        </ul>
+                <h5 class="text-uppercase mb-3">Comments</h5>
+                <?php
+                $recent_comments = get_comments( array(
+                    'number' => 5,
+                    'status' => 'approve',
+                ) );
+
+                if ( ! empty( $recent_comments ) ) :
+                    echo '<ul class="list-unstyled quick-links">';
+                    foreach ( $recent_comments as $comment ) {
+                        $link   = esc_url( get_comment_link( $comment ) );
+                        $author = esc_html( $comment->comment_author );
+                        printf( '<li><a href="%1$s">%2$s</a></li>', $link, $author );
+                    }
+                    echo '</ul>';
+                else :
+                    echo '<p class="text-light">No recent comments.</p>';
+                endif;
+                ?>
             </div>
 
-            <div class="col-md-4 mb-4"> 
-                <h5 class="text-uppercase mb-3">Contact</h5>
+            <!-- Categories -->
+            <div class="col-md-4 mb-4">
+                <h5 class="text-uppercase mb-3">Categories</h5>
                 <ul class="list-unstyled">
-                    <li><i class="fa fa-map-marker"></i> 123 Green Street, HCMC</li>
-                    <li><i class="fa fa-phone"></i> (+84) 76 589 1627</li>
-                    <li><i class="fa fa-envelope"></i> info@example.com</li>
+                    <?php
+                    wp_list_categories( array(
+                        'title_li' => '',
+                        'number'   => 10,
+                        'orderby'  => 'name',
+                        'hide_empty' => 0,
+                    ) );
+                    ?>
                 </ul>
+            </div>
+
+            <!-- Latest Posts -->
+            <div class="col-md-4 mb-4">
+                <h5 class="text-uppercase mb-3">Latest Posts</h5>
+                <?php
+                $recent_posts = wp_get_recent_posts( array(
+                    'numberposts' => 5,
+                    'post_status' => 'publish',
+                ) );
+
+                if ( ! empty( $recent_posts ) ) :
+                    echo '<ul class="list-unstyled">';
+                    foreach ( $recent_posts as $post ) {
+                        $title = esc_html( $post['post_title'] );
+                        $perma = esc_url( get_permalink( $post['ID'] ) );
+                        printf( '<li><a href="%1$s">%2$s</a></li>', $perma, $title );
+                    }
+                    echo '</ul>';
+                else :
+                    echo '<p class="text-light">No posts yet.</p>';
+                endif;
+                wp_reset_query();
+                ?>
             </div>
         </div>
 
@@ -69,7 +101,7 @@
                 <u><a href="https://www.nationaltransaction.com/" class="text-white">National Transaction Corporation</a></u>
                 is a Registered MSP/ISO of Elavon, Inc. Georgia [a wholly owned subsidiary of U.S. Bancorp, Minneapolis, MN]
             </p>
-            <p class="h6 mb-0">© All rights reserved. <a href="https://www.sunlimetech.com" class="text-warning">Sunlimetech</a></p>
+            <p class="h6 mb-0"> uuuuuuurr<a href="https://www.sunlimetech.com" class="text-warning">Sunlimetech</a></p>
         </div>
     </div>
 </section>
