@@ -126,7 +126,7 @@
 
           <!-- SEARCH FORM -->
           <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-            <input type="search" name="s" placeholder="Search" value="<?php echo get_search_query(); ?>">
+            <input id="header-search-input" type="search" name="s" placeholder="Search" value="<?php echo get_search_query(); ?>">
             <button type="submit">Submit</button>
           </form>
         </div>
@@ -146,29 +146,38 @@
 
         <!-- RIGHT: ICONS -->
         <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-          <!-- Menu -->
-          <button class="btn btn-link text-dark d-flex flex-column align-items-center">
+          <!-- Menu (toggle navbar on small screens) -->
+          <button class="btn btn-link text-dark d-flex flex-column align-items-center" data-bs-toggle="collapse" data-bs-target="#navbarGroupC" aria-controls="navbarGroupC" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-ellipsis"></i>
             <small>Menu</small>
           </button>
 
-          <!-- Search -->
-          <a href="<?php echo esc_url(home_url('/')); ?>?s=" class="btn btn-link text-dark d-flex flex-column align-items-center">
+          <!-- Search: focus header search input on click -->
+          <a href="#" id="header-search-toggle" class="btn btn-link text-dark d-flex flex-column align-items-center" role="button" aria-label="Open search">
             <i class="fa-solid fa-magnifying-glass"></i>
             <small>Search</small>
           </a>
 
           <!-- Account -->
           <div class="dropdown">
-            <button class="btn btn-link text-dark dropdown-toggle d-flex flex-column align-items-center" data-bs-toggle="dropdown">
+            <button class="btn btn-link text-dark dropdown-toggle d-flex flex-column align-items-center" id="headerAccountToggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
               <i class="fa-solid fa-user-circle"></i>
               <small>Account</small>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="headerAccountToggle">
+              <?php if ( is_user_logged_in() ) :
+                $current_user = wp_get_current_user();
+              ?>
+                <li><a class="dropdown-item" href="<?php echo esc_url( get_author_posts_url( $current_user->ID ) ); ?>">Profile</a></li>
+                <li><a class="dropdown-item" href="<?php echo esc_url( admin_url() ); ?>">Dashboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="<?php echo esc_url( wp_logout_url( get_permalink() ) ); ?>">Logout</a></li>
+              <?php else : ?>
+                <li><a class="dropdown-item" href="<?php echo esc_url( wp_login_url( get_permalink() ) ); ?>">Login</a></li>
+                <?php if ( function_exists( 'wp_registration_url' ) ) : ?>
+                  <li><a class="dropdown-item" href="<?php echo esc_url( wp_registration_url() ); ?>">Register</a></li>
+                <?php endif; ?>
+              <?php endif; ?>
             </ul>
           </div>
         </div>
@@ -178,6 +187,34 @@
 </header>
 
 <!-- Bootstrap JS -->
+<script>
+  // Small helper: focus header search input when the Search icon/button is clicked
+  (function(){
+    document.addEventListener('DOMContentLoaded', function(){
+      var toggle = document.getElementById('header-search-toggle');
+      var input = document.getElementById('header-search-input');
+      if ( toggle && input ) {
+        toggle.addEventListener('click', function(e){
+          e.preventDefault();
+          // If on a small screen the search is stacked, ensure collapse opened as needed
+          if ( typeof bootstrap !== 'undefined' ) {
+            try {
+              // If navbar is collapsed and hidden, open it so input is visible
+              var navbar = document.getElementById('navbarGroupC');
+              if ( navbar && navbar.classList.contains('collapse') && !navbar.classList.contains('show') ) {
+                var bs = bootstrap.Collapse.getOrCreateInstance(navbar);
+                bs.show();
+              }
+            } catch (err) {
+              // ignore
+            }
+          }
+          input.focus();
+        }, false);
+      }
+    });
+  })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php wp_footer(); ?>
