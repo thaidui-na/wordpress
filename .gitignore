@@ -1,0 +1,15 @@
+# Bỏ thư mục MySQL data / socket / file máy tự tạo
+mysql/
+db/
+data/
+
+# Docker
+*.log
+*.tmp
+
+# VSCode
+.vscode/
+
+# Hệ điều hành
+.DS_Store
+Thumbs.db
