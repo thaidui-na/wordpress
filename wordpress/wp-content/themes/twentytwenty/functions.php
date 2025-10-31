@@ -827,3 +827,16 @@ function add_fontawesome_icons() {
     wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 }
 add_action('wp_enqueue_scripts', 'add_fontawesome_icons');
+
+/**
+ * Enqueue custom content styles
+ */
+function twentytwenty_custom_content_styles() {
+    wp_enqueue_style(
+        'twentytwenty-custom-content',
+        get_template_directory_uri() . '/assets/css/custom-content.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('wp_enqueue_scripts', 'twentytwenty_custom_content_styles');
