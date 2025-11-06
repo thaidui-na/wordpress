@@ -14,7 +14,7 @@ get_header();
    SINGLE POST PAGE - CLEAN STYLE
    =============================== */
 .single-layout {
-    background-color: #f5f6fa;
+    background-color: #f5f4f1;
     padding: 70px 0;
     font-family: "Segoe UI", sans-serif;
 }
@@ -31,10 +31,11 @@ get_header();
    BÀI VIẾT CHÍNH (Không có ảnh)
    =============================== */
 .news-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    padding: 30px 35px;
+    background: #fdfcf9;
+    border-radius: 14px;
+    border: 1px solid rgba(0,0,0,0.07);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+    padding: 36px 40px;
     margin-bottom: 40px;
     position: relative;
 }
@@ -42,52 +43,66 @@ get_header();
 /* Ô ngày tròn vàng */
 .news-card .date-circle {
     position: absolute;
-    top: 20px;
-    right: 25px;
-    background: #ffdf63;
-    width: 60px;
-    height: 60px;
+    top: 28px;
+    right: 40px;
+    background: linear-gradient(145deg, #ffde59 0%, #f9cf2f 100%);
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    color: #222;
-    font-weight: bold;
+    color: #3a2c10;
+    font-weight: 700;
     text-align: center;
-    line-height: 1.2;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    border: 2px solid #fff;
+    line-height: 1.05;
+    box-shadow: 0 8px 18px rgba(255, 193, 7, 0.35);
+    border: 3px solid #fff7d1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .news-card .date-circle .day {
-    font-size: 18px;
-    margin-top: 8px;
+    font-size: 22px;
 }
 .news-card .date-circle .month {
-    font-size: 11px;
-    text-transform: uppercase;
+    font-size: 13px;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+}
+.news-card .date-circle .year {
+    font-size: 12px;
+    margin-top: 2px;
+    letter-spacing: 0.08em;
 }
 
 /* Tiêu đề */
 .news-card h1 {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 15px;
-    padding-right: 80px; /* chừa khoảng trống cho ô ngày */
+    margin-bottom: 18px;
+    padding-right: 110px;
 }
 
 /* Meta */
 .news-card .meta {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 15px;
+    font-size: 13px;
+    color: #8c8c8c;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
 }
 
 /* Nội dung */
 .news-card .text {
     font-size: 16px;
-    color: #333;
-    line-height: 1.8;
+    color: #3a3a3a;
+    line-height: 1.9;
 }
 .news-card .text p {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+}
+.news-card .text p:first-of-type {
+    font-style: italic;
+    color: #6b6b6b;
 }
 .news-card .text em {
     color: #666;
@@ -97,9 +112,9 @@ get_header();
 .news-card .source {
     text-align: right;
     font-style: italic;
-    color: #555;
+    color: #6f6f6f;
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 /* ===============================
@@ -265,14 +280,16 @@ get_header();
                 <div class="post-box">
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                         <?php 
-                            $day = get_the_date('d');
-                            $month = strtoupper(date_i18n('M', strtotime(get_the_date('Y-m-d'))));
+                            $day   = get_the_date('d');
+                            $month = get_the_date('m');
+                            $year  = get_the_date('y');
                         ?>
 
                         <div class="news-card">
                             <div class="date-circle">
                                 <div class="day"><?php echo esc_html($day); ?></div>
                                 <div class="month"><?php echo esc_html($month); ?></div>
+                                    <div class="year">'<?php echo esc_html($year); ?></div>
                             </div>
 
                             <h1><?php the_title(); ?></h1>
