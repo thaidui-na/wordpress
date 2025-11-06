@@ -204,28 +204,31 @@ get_header();
 }
 
 /* ===============================
-   SIDEBAR PHẢI (THEO MẪU MỚI)
+   SIDEBAR PHẢI (RECENT POSTS - GIỐNG MẪU)
    =============================== */
 .sidebar-right {
-  background: #45c2cb; /* Xanh ngọc giống mẫu */
-  border-radius: 8px;
+  background: #45c2cb;
+  border-radius: 10px;
   color: #fff;
   padding: 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   overflow: hidden;
   font-family: "Segoe UI", sans-serif;
 }
 
 /* Danh sách bài viết */
 .sidebar-right .recent-posts {
-  padding: 15px 20px;
+  padding: 22px 25px; /* tăng padding để cao hơn */
 }
 
+/* Mỗi dòng bài viết */
 .sidebar-right .recent-item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.25);
-  padding: 10px 0;
+  justify-content: flex-start;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding: 14px 0; /* tăng chiều cao mỗi dòng */
+  gap: 20px; /* đều giữa ngày và tiêu đề */
 }
 .sidebar-right .recent-item:last-child {
   border-bottom: none;
@@ -233,19 +236,23 @@ get_header();
 
 /* Ô ngày tháng */
 .sidebar-right .recent-date {
+  width: 50px; /* rộng hơn để đều */
   text-align: center;
-  width: 45px;
-  margin-right: 15px;
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
+  flex-shrink: 0;
 }
 .sidebar-right .recent-date .day {
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: bold;
+  display: block;
 }
 .sidebar-right .recent-date .month {
-  font-size: 11px;
-  opacity: 0.9;
+  font-size: 12px;
+  opacity: 0.95;
+  display: block;
+  margin-top: 3px;
 }
 
 /* Tiêu đề bài viết */
@@ -253,7 +260,8 @@ get_header();
   color: #fff;
   font-weight: 500;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
   transition: color 0.2s;
 }
 .sidebar-right a:hover {
@@ -265,12 +273,14 @@ get_header();
 .sidebar-right .view-all {
   background: rgba(255,255,255,0.15);
   text-align: center;
-  padding: 10px 0;
-  font-weight: bold;
+  padding: 14px 0; /* cao hơn để đều */
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: #fff;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  transition: background 0.2s;
+  border-top: 1px solid rgba(255,255,255,0.25);
+  transition: background 0.25s;
 }
 .sidebar-right .view-all:hover {
   background: rgba(255,255,255,0.25);
