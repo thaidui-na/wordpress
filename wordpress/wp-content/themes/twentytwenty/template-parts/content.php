@@ -1,129 +1,227 @@
-<?php
+﻿<?php
 /**
- * Bố cục hiển thị bài viết đẹp cân đối, rõ chữ, có ảnh nhỏ bên trái
+ * Hiển thị bài viết dạng thẻ tin tức (chuẩn mẫu FIT TDC - Categories giữa)
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
  */
 ?>
 
-<div class="container my-3">
-  <div class="news-item-wrapper">
-    <div class="news-item d-flex flex-wrap align-items-start border-bottom pb-3 mb-4 shadow-sm rounded-3 bg-white">
+<article <?php post_class('post-card-wrapper'); ?>>
+  <div class="post-card">
 
-      <!-- Thumbnail -->
-      <div class="news-left me-3 mb-3 mb-md-0">
-        <a href="<?php the_permalink(); ?>">
-          <?php if (has_post_thumbnail()) : ?>
-            <?php the_post_thumbnail('medium', ['class' => 'news-img rounded']); ?>
-          <?php else : ?>
-            <img src="https://via.placeholder.com/260x160?text=No+Image"
-                 alt="<?php the_title(); ?>" class="news-img rounded">
-          <?php endif; ?>
-        </a>
-      </div>
+    <!-- Ảnh bài viết -->
+    <div class="post-thumb">
+      <a href="<?php the_permalink(); ?>">
+        <?php if (has_post_thumbnail()) : ?>
+          <?php the_post_thumbnail('large', ['class' => 'post-img']); ?>
+        <?php else : ?>
+          <img src="https://via.placeholder.com/600x360?text=No+Image" alt="<?php the_title(); ?>" class="post-img" />
+        <?php endif; ?>
+      </a>
+    </div>
 
-      <!-- Nội dung -->
-      <div class="news-right flex-grow-1 pe-md-3">
-        <div class="d-flex align-items-start mb-2">
-          <!-- Ngày tháng -->
-          <div class="news-datebox text-center me-3">
-            <div class="news-date fw-bold fs-4 text-primary"><?php echo get_the_date('d'); ?></div>
-            <div class="news-month small text-uppercase text-secondary">
-              Tháng <?php echo get_the_date('m'); ?>
-            </div>
-            <div class="news-year small text-muted"><?php echo get_the_date('Y'); ?></div>
+    <!-- Nội dung -->
+    <div class="post-content">
+      
+      <!-- Header: ngày tháng + tiêu đề -->
+      <div class="post-header">
+        <div class="post-date-box">
+          <div class="post-day"><?php echo get_the_date('d'); ?></div>
+          <div class="post-date-meta">
+            <div class="post-month">THÁNG <?php echo get_the_date('m'); ?></div>
+            <div class="post-year"><?php echo get_the_date('Y'); ?></div>
           </div>
+        </div>
 
-          <!-- Tiêu đề + mô tả -->
-          <div class="news-info">
-            <a href="<?php the_permalink(); ?>" class="news-title fw-bold text-dark d-block mb-2" style="font-size: 1.2rem;">
-              <?php the_title(); ?>
-            </a>
-            <div class="news-category text-muted mb-2" style="font-size: 0.95rem;">
-              Chuyên mục: <strong class="text-primary"><?php the_category(', '); ?></strong>
-            </div>
-            <p class="news-desc text-secondary mb-2" style="font-size: 1rem; line-height: 1.6;">
-              <?php echo wp_trim_words(get_the_excerpt(), 32, '...'); ?>
-            </p>
+        <div class="post-header-right">
+          <h2 class="post-title">
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+          </h2>
 
-            <a href="<?php the_permalink(); ?>" class="btn btn-outline-primary btn-sm mt-1">Đọc thêm →</a>
+          <!-- Danh mục nằm giữa theo chiều cao ô ngày tháng -->
+          <div class="post-meta">
+            <span class="label">Categories</span>
+            <?php
+              $categories = get_the_category();
+              if ($categories) {
+                $links = [];
+                foreach ($categories as $cat) {
+                  $links[] = '<a href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a>';
+                }
+                echo implode(', ', $links);
+              }
+            ?>
           </div>
         </div>
       </div>
 
+      <!-- Tóm tắt -->
+      <div class="post-excerpt">
+        <?php echo wp_trim_words(get_the_excerpt(), 35, '...'); ?>
+      </div>
     </div>
   </div>
-</div>
+</article>
 
 <style>
-/* ======= Giao diện tin tức cân đối & rõ chữ ======= */
-.news-item-wrapper {
-  transition: all 0.3s ease;
-}
-
-.news-item {
-  padding: 18px;
-}
-
-.news-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.news-left {
-  flex: 0 0 250px;
-}
-
-.news-img {
+/* ==== Tổng thể ==== */
+.post-card-wrapper {
   width: 100%;
-  height: 160px;
+  max-width: 1200px;
+  margin: 0 auto 36px auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.post-card {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+.post-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+/* ==== Ảnh ==== */
+.post-thumb {
+  overflow: hidden;
+  height: 230px;
+}
+.post-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  transition: transform 0.4s ease;
+}
+.post-card:hover .post-img {
+  transform: scale(1.05);
 }
 
-.news-datebox {
-  width: 70px;
-  min-width: 70px;
-  border-right: 2px solid #0d6efd;
-  padding-right: 12px;
-  line-height: 1.3;
+/* ==== Nội dung ==== */
+.post-content {
+  padding: 20px 34px 24px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.news-title:hover {
-  color: #0d6efd;
-  text-decoration: underline;
+/* ==== Header ==== */
+.post-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 16px;
 }
 
-.news-info {
+/* ==== Ô ngày tháng ==== */
+.post-date-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  max-width: 110px;
+  margin: 0;
+}
+.post-day {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  line-height: 1;
+  margin-right: 8px;
+}
+.post-date-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+.post-month {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+.post-year {
+  font-size: 0.8rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* ==== Tiêu đề + Categories ==== */
+.post-header-right {
   flex: 1;
 }
 
-.btn-outline-primary {
-  font-size: 0.85rem;
-  padding: 3px 10px;
-  border-radius: 4px;
+.post-title {
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.3;
+  vertical-align: middle;
+}
+.post-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.post-title a:hover {
+  color: #1d4ed8;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .news-item {
-    flex-direction: column;
-    padding: 12px;
+/* ==== Categories ngang hàng, có khoảng cách nhỏ ==== */
+.post-meta {
+  display: inline-block;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  color: #4b5563;
+  vertical-align: middle;
+}
+.post-meta .label {
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-right: 4px;
+}
+.post-meta a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+.post-meta a:hover {
+  text-decoration: underline;
+}
+
+/* ==== Tóm tắt ==== */
+.post-excerpt {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.6;
+  margin-top: 10px;
+  max-width: 720px;
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 992px) {
+  .post-card {
+    grid-template-columns: 1fr;
   }
-  .news-left {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .news-img {
+  .post-thumb {
     height: 200px;
   }
-  .news-datebox {
-    border-right: none;
-    border-bottom: 2px solid #0d6efd;
-    width: 100%;
-    margin-bottom: 8px;
-    padding-bottom: 5px;
+  .post-content {
+    padding: 20px;
   }
 }
 </style>
