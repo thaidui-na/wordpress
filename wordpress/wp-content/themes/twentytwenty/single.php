@@ -211,37 +211,97 @@ get_header();
    =============================== */
 .custom-prev-next {
     margin-top: 50px;
-    padding-top: 25px;
-    border-top: 1px solid #eee;
+    padding-top: 32px;
+    border-top: 1px solid #e3e3e3;
 }
-.date-box {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    width: 55px;
-    height: 55px;
-    text-align: center;
-    line-height: 1.2;
+.prev-next-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    margin-bottom: 26px;
+}
+.prev-next-item:last-child {
+    margin-bottom: 0;
+}
+.prev-next-date {
+    position: relative;
+    padding-left: 22px;
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #444;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+.prev-next-date::before,
+.prev-next-date::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    width: 1px;
+    background: #d8d8d8;
+}
+.prev-next-date::before {
+    top: -20px;
+    height: 18px;
+}
+.prev-next-date::after {
+    bottom: -20px;
+    height: 18px;
+}
+.prev-next-date .date-stack {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 15px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    align-items: center;
+    font-size: 13px;
+    color: #1f2933;
 }
-.date-box span {
+.prev-next-date .date-stack span {
+    line-height: 1;
+}
+.prev-next-date .date-stack .day {
+    position: relative;
+    display: block;
+    padding-bottom: 10px;
+}
+.prev-next-date .date-stack .day::after {
+    content: '/';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 11px;
-    color: #888;
+    color: #9ca3af;
 }
-.title-link {
+.prev-next-date .date-stack .month {
+    display: block;
+    margin-top: 6px;
+}
+.prev-next-date .year {
+    font-size: 13px;
+    color: #9ca3af;
+}
+.prev-next-title {
     text-decoration: none;
     font-size: 16px;
-    color: #222;
+    color: #1f1f1f;
     font-weight: 500;
+    transition: color 0.2s ease;
 }
-.title-link:hover {
-    color: #007bff;
-    text-decoration: underline;
+.prev-next-title:hover {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+@media (max-width: 576px) {
+    .prev-next-item {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .prev-next-date {
+        padding-left: 18px;
+    }
 }
 
 /* ===============================
@@ -312,24 +372,30 @@ get_header();
                             $next_post = get_next_post();
                             ?>
                             <?php if ($prev_post): ?>
-                                <div class="d-flex align-items-center mb-4">
-                                    <div class="date-box me-3">
-                                        <strong><?php echo get_the_date('d', $prev_post); ?></strong>
-                                        <span><?php echo get_the_date('m', $prev_post); ?></span>
+                                <div class="prev-next-item">
+                                    <div class="prev-next-date">
+                                        <span class="date-stack">
+                                            <span class="day"><?php echo get_the_date('d', $prev_post); ?></span>
+                                            <span class="month"><?php echo get_the_date('m', $prev_post); ?></span>
+                                        </span>
+                                        <span class="year">'<?php echo get_the_date('y', $prev_post); ?></span>
                                     </div>
-                                    <a href="<?php echo get_permalink($prev_post); ?>" class="title-link">
+                                    <a href="<?php echo get_permalink($prev_post); ?>" class="prev-next-title">
                                         <?php echo get_the_title($prev_post); ?>
                                     </a>
                                 </div>
                             <?php endif; ?>
 
                             <?php if ($next_post): ?>
-                                <div class="d-flex align-items-center">
-                                    <div class="date-box me-3">
-                                        <strong><?php echo get_the_date('d', $next_post); ?></strong>
-                                        <span><?php echo get_the_date('m', $next_post); ?></span>
+                                <div class="prev-next-item">
+                                    <div class="prev-next-date">
+                                        <span class="date-stack">
+                                            <span class="day"><?php echo get_the_date('d', $next_post); ?></span>
+                                            <span class="month"><?php echo get_the_date('m', $next_post); ?></span>
+                                        </span>
+                                        <span class="year">'<?php echo get_the_date('y', $next_post); ?></span>
                                     </div>
-                                    <a href="<?php echo get_permalink($next_post); ?>" class="title-link">
+                                    <a href="<?php echo get_permalink($next_post); ?>" class="prev-next-title">
                                         <?php echo get_the_title($next_post); ?>
                                     </a>
                                 </div>
