@@ -118,19 +118,89 @@ get_header();
 }
 
 /* ===============================
-   SIDEBAR TRÁI
+   SIDEBAR TRÁI - GIỐNG MẪU TRÀN VIỀN
    =============================== */
 .sidebar-left {
-    background: #ffffff;
+    background: repeating-linear-gradient(
+        45deg,
+        #f9f9f9,
+        #f9f9f9 6px,
+        #f7f7f7 6px,
+        #f7f7f7 12px
+    ); /* nền caro sáng */
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     padding: 20px;
+    font-family: "Segoe UI", sans-serif;
 }
+
+/* Tiêu đề */
 .sidebar-left h5 {
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    color: #011210ff;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #222;
+    border-bottom: 2px dotted #d8d8d8;
+    padding-bottom: 4px;
+}
+
+/* Ô trang trí mảnh dưới tiêu đề */
+.sidebar-left::after {
+    content: "";
+    display: block;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        #fafafa,
+        #fafafa 5px,
+        #f5f5f5 5px,
+        #f5f5f5 10px
+    );
+    border-radius: 4px;
+    margin: 8px 0 15px 0;
+}
+
+/* Danh sách danh mục – TRÀN VIỀN */
+.sidebar-left ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+/* Từng mục danh mục */
+.sidebar-left ul li {
+    position: relative;
+    padding: 10px 0 10px 26px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.sidebar-left ul li:last-child {
+    border-bottom: none;
+}
+
+/* Dấu chấm vàng */
+.sidebar-left ul li::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    font-size: 22px;
+    color: #ffc107;
+    line-height: 1;
+}
+
+/* Liên kết danh mục */
+.sidebar-left ul li a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.sidebar-left ul li a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
 }
 
 /* ===============================
