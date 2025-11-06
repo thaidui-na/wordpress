@@ -340,60 +340,98 @@ get_header();
 .latest-news-box {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    padding: 30px 40px;
+    box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+    padding: 36px 48px;
     margin-top: 40px;
     grid-column: 1 / -1;
+    position: relative;
 }
 .latest-news-box h2 {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    color: #222;
-    margin-bottom: 22px;
+    color: #0f172a;
+    margin-bottom: 28px;
     position: relative;
 }
 .latest-news-box h2::after {
     content: "";
     position: absolute;
-    bottom: -8px;
     left: 0;
-    width: 50px;
+    bottom: -14px;
+    width: 72px;
     height: 3px;
-    background: #007bff;
-    border-radius: 3px;
+    background: #1d4ed8;
+    border-radius: 999px;
+}
+.latest-news-timeline {
+    position: relative;
+    padding-left: 24px;
+}
+.latest-news-timeline::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #c7d2fe;
 }
 .news-item {
-    display: flex;
-    gap: 15px;
-    padding: 12px 0;
-    border-left: 2px solid #007bff20;
     position: relative;
+    padding: 18px 0 18px 32px;
 }
-.news-icon {
-    width: 10px;
-    height: 10px;
-    background: #007bff;
-    border-radius: 50%;
+.news-item:not(:last-child) {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+.news-item::before {
+    content: "";
     position: absolute;
-    left: -6px;
-    top: 22px;
+    left: 3px;
+    top: 26px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid #1d4ed8;
+    background: #fff;
+    box-shadow: none;
+}
+.news-item h3 {
+    font-size: 18px;
+    margin: 0 0 6px;
 }
 .news-title {
-    color: #007bff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #1d4ed8;
     font-weight: 600;
-    font-size: 15px;
     text-decoration: none;
 }
 .news-title:hover {
     text-decoration: underline;
 }
+.news-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+    width: 100%;
+}
+.news-title {
+    flex: 1;
+}
 .news-date {
-    font-size: 13px;
-    color: #999;
+    font-size: 14px;
+    color: #1d4ed8;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
 }
 .news-excerpt {
     font-size: 14px;
-    color: #444;
+    color: #4a5568;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* ===============================
@@ -513,20 +551,21 @@ get_header();
 
             <!-- MODULE 15 -->
             <div class="latest-news-box">
-            <h2>Tin mới nhất</h2>
-            <?php
-            $recent_posts = get_posts(['numberposts' => 3, 'post_status' => 'publish']);
-            foreach ($recent_posts as $post) :
-            ?>
-                <div class="news-item">
-                    <div class="news-icon"></div>
-                    <div>
-                        <a href="<?php echo get_permalink($post->ID); ?>" class="news-title"><?php echo esc_html($post->post_title); ?></a>
-                        <span class="news-date"><?php echo get_the_date('d/m/Y', $post->ID); ?></span>
-                        <p class="news-excerpt"><?php echo wp_trim_words(get_the_excerpt($post->ID), 20, '...'); ?></p>
+                <h2>Latest News</h2>
+                <div class="latest-news-timeline">
+                <?php
+                $recent_posts = get_posts(['numberposts' => 3, 'post_status' => 'publish']);
+                foreach ($recent_posts as $post) :
+                ?>
+                    <div class="news-item">
+                        <div class="news-meta">
+                            <a href="<?php echo get_permalink($post->ID); ?>" class="news-title"><?php echo esc_html($post->post_title); ?></a>
+                            <span class="news-date"><?php echo get_the_date('d F, Y', $post->ID); ?></span>
+                        </div>
+                        <p class="news-excerpt"><?php echo wp_trim_words(get_the_excerpt($post->ID), 24, '...'); ?></p>
                     </div>
+                <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
             </div>
         </div>
     </div>
