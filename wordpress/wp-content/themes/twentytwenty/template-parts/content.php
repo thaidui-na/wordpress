@@ -1,262 +1,216 @@
 ﻿<?php
 /**
- * Template hiển thị bài viết
+ * Hiển thị bài viết dạng thẻ tin tức (ngày tháng vuông - ngang hàng với tiêu đề)
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
  */
 ?>
 
-<div class="post-card-wrapper">
-  <article <?php post_class('post-card-article'); ?>>
-    <div class="post-card">
-      
-      <div class="post-thumb">
-        <a href="<?php the_permalink(); ?>">
-          <?php if (has_post_thumbnail()) : ?>
-            <?php the_post_thumbnail('medium_large', ['class' => 'post-img']); ?>
-          <?php else : ?>
-            <img src="https://via.placeholder.com/300x200?text=No+Image" alt="<?php the_title(); ?>" class="post-img" />
-          <?php endif; ?>
-        </a>
-      </div>
+<article <?php post_class('news-card-wrapper'); ?>>
+  <div class="news-card">
 
-      <div class="post-date">
-        <div class="date-day"><?php echo get_the_date('d'); ?></div>
-        <div class="date-month">THÁNG <?php echo get_the_date('m'); ?></div>
-        <div class="date-year"><?php echo get_the_date('Y'); ?></div>
-      </div>
+    <!-- Ảnh bài viết -->
+    <div class="news-thumb">
+      <a href="<?php the_permalink(); ?>">
+        <?php if (has_post_thumbnail()) : ?>
+          <?php the_post_thumbnail('large', ['class' => 'news-img']); ?>
+        <?php else : ?>
+          <img src="https://via.placeholder.com/400x260?text=No+Image" alt="<?php the_title(); ?>" class="news-img" />
+        <?php endif; ?>
+      </a>
+    </div>
 
-      <div class="post-body">
-        <h2 class="post-title">
+    <!-- Nội dung -->
+    <div class="news-content">
+
+      <!-- Tiêu đề và ngày tháng cùng hàng -->
+      <div class="news-header">
+        <div class="news-date-box">
+          <span class="news-day"><?php echo get_the_date('d'); ?></span>
+          <div class="news-date-meta">
+            <span class="news-month">THÁNG <?php echo get_the_date('m'); ?></span>
+            <span class="news-year"><?php echo get_the_date('Y'); ?></span>
+          </div>
+        </div>
+        <h2 class="news-title">
           <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
         </h2>
-        
-        <div class="post-meta">
-          <span class="post-cats">
-            Categories: 
-            <?php
-            $categories = get_the_category();
-            if ($categories) {
-              foreach($categories as $cat) {
-                echo '<span class="cat-badge">' . esc_html($cat->name) . '</span> ';
-              }
-            }
-            ?>
-          </span>
-        </div>
-        
-        <div class="post-excerpt">
-          <?php echo wp_trim_words(get_the_excerpt(), 28, '...'); ?>
-        </div>
       </div>
-      
+
+      <!-- Danh mục -->
+      <div class="news-meta">
+        <span class="meta-label">Categories:</span>
+        <span class="meta-cats">
+          <?php
+          $categories = get_the_category();
+          if ($categories) {
+            $links = [];
+            foreach ($categories as $cat) {
+              $links[] = '<a href="' . esc_url(get_category_link($cat->term_id)) . '" class="cat-link">' . esc_html($cat->name) . '</a>';
+            }
+            echo implode('&nbsp;', $links);
+          }
+          ?>
+        </span>
+      </div>
+
+      <!-- Tóm tắt -->
+      <div class="news-excerpt">
+        <?php echo wp_trim_words(get_the_excerpt(), 35, '...'); ?>
+      </div>
+
     </div>
-  </article>
-</div>
+  </div>
+</article>
 
 <style>
-.post-card-wrapper {
+/* ==== Tổng thể ==== */
+.news-card-wrapper {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 30px auto;
-  padding: 0 15px;
+  margin: 0 auto 36px auto;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
-.post-card-article {
-  margin: 0;
-}
-
-.post-card {
+.news-card {
   display: flex;
-  align-items: stretch;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  transition: 0.3s;
+}
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
 }
 
-.post-card:hover {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-}
-
-.post-thumb {
-  flex: 0 0 280px;
-  max-width: 280px;
-  min-height: 200px;
+/* ==== Ảnh ==== */
+.news-thumb {
+  flex: 0 0 300px;
+  max-width: 300px;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #f1f5f9;
 }
-
-.post-img {
+.news-img {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
-
-.post-thumb:hover .post-img {
+.news-thumb:hover .news-img {
   transform: scale(1.05);
 }
 
-.post-date {
-  flex: 0 0 90px;
-  max-width: 90px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 3px solid #1976d2;
-  background: #fafafa;
-  padding: 15px 5px;
-  text-align: center;
-}
-
-.date-day {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1976d2;
-  line-height: 1;
-}
-
-.date-month {
-  font-size: 0.85rem;
-  color: #666;
-  text-transform: uppercase;
-  margin-top: 4px;
-  letter-spacing: 0.5px;
-}
-
-.date-year {
-  font-size: 0.9rem;
-  color: #999;
-  margin-top: 2px;
-}
-
-.post-body {
+/* ==== Nội dung ==== */
+.news-content {
   flex: 1;
-  padding: 20px 25px;
+  padding: 26px 36px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.post-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #1a237e;
-  margin: 0 0 10px 0;
-  line-height: 1.4;
-}
-
-.post-title a {
-  color: #1a237e;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.post-title a:hover {
-  color: #1976d2;
-  text-decoration: underline;
-}
-
-.post-meta {
+/* ==== Header (ngày + tiêu đề) ==== */
+.news-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   margin-bottom: 10px;
 }
 
-.post-cats {
-  font-size: 0.95rem;
-  color: #1976d2;
-  font-weight: 500;
+/* ==== Ô ngày tháng vuông ==== */
+.news-date-box {
+  background: #eaf0ff;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1d4ed8;
+  flex-shrink: 0;
 }
 
-.cat-badge {
-  display: inline-block;
-  background: #e3f2fd;
-  color: #1976d2;
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  margin-left: 5px;
+.news-day {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.news-date-meta {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+/* ==== Tiêu đề ==== */
+.news-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.4;
+}
+.news-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.news-title a:hover {
+  color: #1d4ed8;
+}
+
+/* ==== Danh mục ==== */
+.news-meta {
+  font-size: 0.85rem;
+  margin: 8px 0;
+  color: #334155;
+}
+.meta-label {
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+.cat-link {
+  color: #1d4ed8;
   font-weight: 600;
 }
-
-.post-excerpt {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
+.cat-link:hover {
+  text-decoration: underline;
 }
 
+/* ==== Tóm tắt ==== */
+.news-excerpt {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+/* ==== Responsive ==== */
 @media (max-width: 992px) {
-  .post-thumb {
-    flex: 0 0 220px;
-    max-width: 220px;
-    min-height: 160px;
-  }
-  
-  .post-img {
-    height: 160px;
-  }
-  
-  .post-date {
-    flex: 0 0 75px;
-    max-width: 75px;
-  }
-  
-  .date-day {
-    font-size: 2rem;
-  }
-  
-  .post-body {
-    padding: 15px 18px;
-  }
-  
-  .post-title {
-    font-size: 1.15rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .post-card {
+  .news-card {
     flex-direction: column;
   }
-  
-  .post-thumb {
-    flex: none;
+  .news-thumb {
     max-width: 100%;
-    min-height: 180px;
+    height: 240px;
   }
-  
-  .post-img {
-    height: 180px;
+  .news-content {
+    padding: 20px;
   }
-  
-  .post-date {
-    flex: none;
-    max-width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    border-right: none;
-    border-bottom: 3px solid #1976d2;
-    padding: 12px 0;
-  }
-  
-  .date-day {
-    font-size: 1.8rem;
-  }
-  
-  .date-month,
-  .date-year {
-    margin-top: 0;
-    align-self: flex-end;
-    padding-bottom: 3px;
-  }
-  
-  .post-body {
-    padding: 15px;
+  .news-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>
