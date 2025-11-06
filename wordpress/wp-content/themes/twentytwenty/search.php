@@ -156,6 +156,119 @@ get_header();
     color: #444;
     line-height: 1.5;
 }
+
+.no-results {
+    margin: 40px 0 0;
+}
+.no-results-card {
+    background: #fff;
+    border-radius: 18px 18px 0 0;
+    padding: 42px 30px 30px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.no-results-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #d62828;
+    margin: 0 0 12px 0;
+}
+.no-results-title span {
+    color: #111827;
+}
+.no-results-text {
+    font-size: 15px;
+    color: #4b5563;
+    margin: 0;
+}
+.no-results-form {
+    background: #efe4d0;
+    border-radius: 0 0 18px 18px;
+    padding: 32px;
+    border: 1px solid rgba(209, 213, 219, 0.6);
+    border-top: none;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+.no-results-form form {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 10px 20px rgba(17,24,39,0.08);
+}
+.no-results-form .search-field-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.no-results-form .search-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+}
+.no-results-form .search-icon::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #475569;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+}
+.no-results-form .search-icon::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background: #475569;
+    transform: rotate(45deg);
+    bottom: 0;
+    right: 0;
+    border-radius: 2px;
+}
+.no-results-form input[type="search"] {
+    flex: 1;
+    border: none;
+    font-size: 16px;
+    color: #1f2937;
+    padding: 8px 4px;
+    outline: none;
+}
+.no-results-form button {
+    padding: 12px 30px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.no-results-form button:hover {
+    background: #23893a;
+}
+.no-results-form button:focus {
+    outline: 2px solid rgba(40, 167, 69, 0.4);
+    outline-offset: 2px;
+}
+@media (max-width: 640px) {
+    .no-results-form form {
+        flex-direction: column;
+        padding: 16px;
+    }
+    .no-results-form button {
+        width: 100%;
+        justify-content: center;
+    }
+}
 @media (max-width: 768px) {
     .search-row {
         flex-direction: column;
@@ -384,11 +497,20 @@ get_header();
                     </div>
                 <?php else : ?>
                     <div class="no-results">
-                        <p>😕 Không tìm thấy kết quả phù hợp với từ khóa của bạn.</p>
-                        <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-                            <input type="search" name="s" placeholder="Nhập từ khóa..." value="<?php echo get_search_query(); ?>">
-                            <button type="submit">Tìm kiếm</button>
-                        </form>
+                        <div class="no-results-card">
+                            <h3 class="no-results-title">Search: <span>"<?php echo esc_html( get_search_query() ); ?>"</span></h3>
+                            <p class="no-results-text">We could not find any results for your search. You can give it another try through the search form below.</p>
+                        </div>
+                        <div class="no-results-form">
+                            <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                                <label for="no-results-search-field" class="screen-reader-text"><?php esc_html_e( 'Search for:', 'twentytwenty' ); ?></label>
+                                <div class="search-field-wrapper">
+                                    <span class="search-icon" aria-hidden="true"></span>
+                                    <input id="no-results-search-field" type="search" name="s" placeholder="Search topics or keywords" value="<?php echo esc_attr( get_search_query() ); ?>" required>
+                                </div>
+                                <button type="submit"><?php esc_html_e( 'Search', 'twentytwenty' ); ?></button>
+                            </form>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>
@@ -460,4 +582,3 @@ get_header();
 </section>
 
 <?php get_footer(); ?>
-i
