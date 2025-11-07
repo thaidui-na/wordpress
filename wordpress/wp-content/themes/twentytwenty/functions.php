@@ -459,6 +459,19 @@ if ( is_admin() && version_compare( $GLOBALS['wp_version'], '6.3', '>=' ) ) {
 	add_action( 'enqueue_block_assets', 'twentytwenty_block_editor_styles', 1, 1 );
 } else {
 	add_action( 'enqueue_block_editor_assets', 'twentytwenty_block_editor_styles', 1, 1 );
+/**
+ * Home pagination helper: limit posts per page so navigation appears.
+ */
+function twentytwenty_home_posts_per_page( $query ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	if ( $query->is_home() || ( $query->is_front_page() && 'posts' === get_option( 'show_on_front' ) ) ) {
+		$query->set( 'posts_per_page', 3 );
+	}
+}
+add_action( 'pre_get_posts', 'twentytwenty_home_posts_per_page' );
 }
 
 /**
