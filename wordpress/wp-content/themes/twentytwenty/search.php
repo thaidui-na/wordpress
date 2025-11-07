@@ -92,144 +92,69 @@ get_header();
 .search-row {
     display: flex;
     background: #fff;
-    border-radius: 24px;
+    border-radius: 10px;
     overflow: hidden;
-    border: 1px solid rgba(59, 130, 246, 0.12);
-    box-shadow: 0 14px 32px rgba(15, 76, 129, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
 }
 .search-row:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 24px 48px rgba(15, 76, 129, 0.14);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 .search-thumb {
-    flex: 0 0 280px;
-    max-width: 280px;
-    min-height: 210px;
-    background: #f3f4f6;
+    flex: 0 0 250px;
 }
 .search-thumb img {
     width: 100%;
-    height: 100%;
-    min-height: 210px;
+    height: 180px;
     object-fit: cover;
 }
-.search-body {
-    flex: 1;
+.search-info {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 32px 40px;
-}
-.search-header {
-    display: flex;
-    gap: 22px;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.search-title-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
     flex: 1;
 }
-.search-date-box {
-    min-width: 92px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid rgba(59, 130, 246, 0.28);
-    box-shadow: 0 10px 24px rgba(59, 130, 246, 0.12);
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.1;
+.date-box {
+    width: 70px;
+    background: #f3f6ff;
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 0;
+    line-height: 1.2;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
-.search-date-box .date-day {
-    font-size: 2.2rem;
+.date-box .day {
+    font-size: 22px;
     font-weight: 700;
-    color: #1d4ed8;
+    color: #007bff;
 }
-.search-date-box .date-month {
-    margin-top: 6px;
-    font-size: 0.72rem;
-    color: #1d4ed8;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-}
-.search-date-box .date-year {
-    margin-top: 2px;
-    font-size: 0.75rem;
-    color: #475569;
+.date-box .month {
+    font-size: 12px;
+    color: #555;
     font-weight: 600;
-}
-.search-title {
-    font-size: 1.38rem;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0 0 8px 0;
-    line-height: 1.45;
-}
-.search-title a {
-    color: inherit;
-    text-decoration: none;
-}
-.search-title a:hover {
-    color: #1d4ed8;
-}
-.search-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.82rem;
-    color: #1d4ed8;
-    font-weight: 600;
-}
-.search-meta .meta-label {
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: #94a3b8;
 }
-.search-meta .meta-cats {
-    display: flex;
-    gap: 10px;
-    font-weight: 700;
+.text-box {
+    flex: 1;
 }
-.search-meta .meta-cats a {
-    color: inherit;
+.text-box h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.text-box h3 a {
+    color: #007bff;
     text-decoration: none;
 }
-.search-meta .meta-cats a:hover {
+.text-box h3 a:hover {
     text-decoration: underline;
 }
-.search-desc {
-    font-size: 0.95rem;
-    color: #334155;
-    line-height: 1.7;
-    margin: 0;
-}
-
-@media (max-width: 992px) {
-    .search-row {
-        border-radius: 20px;
-    }
-    .search-thumb {
-        flex: 0 0 230px;
-        max-width: 230px;
-    }
-    .search-body {
-        padding: 26px 30px;
-    }
-    .search-date-box {
-        min-width: 84px;
-    }
-    .search-date-box .date-day {
-        font-size: 2rem;
-    }
-    .search-title {
-        font-size: 1.26rem;
-    }
+.text-box .search-desc {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
 }
 
 .no-results {
@@ -264,31 +189,28 @@ get_header();
     border-top: none;
     box-shadow: 0 14px 28px rgba(0,0,0,0.06);
 }
-        .search-body {
-            padding: 24px;
-        }
-        .search-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 16px;
-        }
-        .search-date-box {
-            flex-direction: row;
-            gap: 12px;
-            padding: 12px 18px;
-        }
-        .search-date-box .date-day {
-            font-size: 1.9rem;
-        }
-        .search-date-box .date-month,
-        .search-date-box .date-year {
-            margin-top: 0;
-            letter-spacing: 0.08em;
-        }
-        .search-meta {
-            flex-wrap: wrap;
-            row-gap: 6px;
-        }
+.no-results-form form {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 10px 20px rgba(17,24,39,0.08);
+}
+.no-results-form .search-field-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.no-results-form .search-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+}
+.no-results-form .search-icon::before {
+    content: '';
     position: absolute;
     width: 16px;
     height: 16px;
@@ -353,29 +275,10 @@ get_header();
     }
     .search-thumb {
         flex: none;
-        max-width: 100%;
     }
-    .search-body {
+    .search-info {
         flex-direction: column;
-    }
-    .search-date {
-        flex: none;
-        max-width: 100%;
-        flex-direction: row;
-        justify-content: center;
-        gap: 14px;
-        padding: 16px 0;
-        border-bottom: 3px solid #1d4ed8;
-    }
-    .search-date::before,
-    .search-date::after {
-        display: none;
-    }
-    .search-text {
-        padding: 24px;
-    }
-    .search-desc {
-        max-width: 100%;
+        align-items: flex-start;
     }
 }
 
@@ -532,8 +435,6 @@ get_header();
     margin: 0;
 }
 
-
-
 /* ===============================
    PHÂN TRANG
    =============================== */
@@ -581,42 +482,27 @@ get_header();
                         <?php while (have_posts()) : the_post(); ?>
                             <?php 
                                 $day = get_the_date('d');
-                                $categories = get_the_category();
-                                $category_links = [];
-                                if ( $categories ) {
-                                    foreach ( $categories as $cat ) {
-                                        $category_links[] = '<a href="' . esc_url( get_category_link( $cat->term_id ) ) . '">' . esc_html( $cat->name ) . '</a>';
-                                    }
-                                }
+                                $month = strtoupper(date_i18n('F', strtotime(get_the_date('Y-m-d'))));
                             ?>
                             <div class="search-row">
                                 <div class="search-thumb">
                                     <a href="<?php the_permalink(); ?>">
                                         <?php if (has_post_thumbnail()) {
-                                            the_post_thumbnail('medium_large');
+                                            the_post_thumbnail('medium');
                                         } else {
                                             echo '<img src="https://via.placeholder.com/400x250?text=No+Image" alt="">';
                                         } ?>
                                     </a>
                                 </div>
-                                <div class="search-body">
-                                    <div class="search-header">
-                                        <div class="search-date-box">
-                                            <span class="date-day"><?php echo esc_html( $day ); ?></span>
-                                            <span class="date-month">THÁNG <?php echo esc_html( get_the_date( 'm' ) ); ?></span>
-                                            <span class="date-year"><?php echo esc_html( get_the_date( 'Y' ) ); ?></span>
-                                        </div>
-                                        <div class="search-title-wrap">
-                                            <h3 class="search-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                                            <?php if ( ! empty( $category_links ) ) : ?>
-                                                <div class="search-meta">
-                                                    <span class="meta-label"><?php esc_html_e( 'Categories', 'twentytwenty' ); ?></span>
-                                                    <span class="meta-cats"><?php echo implode( '&nbsp;', $category_links ); ?></span>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
+                                <div class="search-info">
+                                    <div class="date-box">
+                                        <div class="day"><?php echo esc_html($day); ?></div>
+                                        <div class="month">THÁNG <?php echo esc_html(date_i18n('m')); ?></div>
                                     </div>
-                                    <p class="search-desc"><?php echo wp_trim_words( get_the_excerpt(), 24, '...' ); ?></p>
+                                    <div class="text-box">
+                                        <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                                        <p class="search-desc"><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
+                                    </div>
                                 </div>
                             </div>
                         <?php endwhile; ?>
@@ -683,7 +569,8 @@ get_header();
                 </div>
             </div>
         </div> <!-- end .search-layout -->
-  <!-- MODULE 15 -->
+
+       <!-- MODULE 15 -->
             <div class="latest-news-box">
                 <h2>Latest News</h2>
                 <div class="latest-news-timeline">
@@ -702,7 +589,6 @@ get_header();
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
